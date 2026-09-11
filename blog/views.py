@@ -3,7 +3,8 @@ from django.http import HttpResponse, JsonResponse,Http404
 import logging
 from .models import Post
 from django.core.paginator import Paginator
-
+from .forms  import ContactForm
+from django.contrib import messages
 # posts=[
 #         {'id':1, 'title':'Post 1','content':'Content of Post 1'},
 #         {'id':2,  'title':'Post 2','content':'Content of Post 2'},
@@ -47,3 +48,19 @@ def old_url_redirect(request):
 
 def new_url_view(request):
     return HttpResponse("You are redirected!")
+
+def contact(request):
+    logger = logging.getLogger("Testing")
+
+    if request.method == 'POST':
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            logger.debug(f"post req is {form.cleaned_data['name']} {form.cleaned_data['email']}")
+            messages.success(request, "Your message has been sent successfully!")
+            return redirect('contact')
+        else:
+            logger.debug(f"form validation failure: {form.errors}")
+    else:
+        form = ContactForm()
+
+    return render(request, 'blog/contact.html', {'form': form})
