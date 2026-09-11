@@ -2,6 +2,7 @@ from django.shortcuts import render,redirect
 from django.http import HttpResponse, JsonResponse,Http404
 import logging
 from .models import Post
+from django.core.paginator import Paginator
 
 # posts=[
 #         {'id':1, 'title':'Post 1','content':'Content of Post 1'},
@@ -17,8 +18,11 @@ def login(request):
 
 def index(request):
     blog_title="Latest Posts"
-    posts = Post.objects.all()
-    return render(request,'blog/index.html',{'blog_title':blog_title,'posts':posts})
+    all_posts = Post.objects.all()
+    paginator=Paginator(all_posts,5)
+    page_number=request.GET.get('page')
+    page_obj=paginator.get_page(page_number)
+    return render(request,'blog/index.html',{'blog_title':blog_title,'posts':page_obj})
 
 def detail(request):
     return JsonResponse({
