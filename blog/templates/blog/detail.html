@@ -6,7 +6,7 @@
 
       <!-- Post content -->
       <article class="col-lg-8">
-        <h1 class="display-5 fw-bold">{{ post.title }}</h1>
+        <h1 class="display-5 fw-bold">{{ post.title }} <small style="font-size:32px;"> ({{post.category.name}})</small></h1>
         <p class="text-muted mb-4">Posted on {{ post.created_at|date:"F j, Y" }}</p>
 
         <div class="ratio ratio-21x9 bg-secondary-subtle rounded mb-4 overflow-hidden">
@@ -24,9 +24,9 @@
           <div class="card-body">
             <h2 class="card-title h5 fw-bold mb-3">Related Posts</h2>
             <ul class="list-unstyled mb-0">
-              <li class="mb-2"><a href="#" class="link-primary text-decoration-underline">Post 1</a></li>
-              <li class="mb-2"><a href="#" class="link-primary text-decoration-underline">Post 2</a></li>
-              <li class="mb-0"><a href="#" class="link-primary text-decoration-underline">Post 3</a></li>
+              {% for related_post in related_posts %}
+              <li class="mb-2"><a href="{% url 'detailWithId' slug=related_post.slug %}" class="link-primary text-decoration-underline">{{ related_post.title }}</a></li>
+              {% endfor %}
             </ul>
           </div>
         </div>

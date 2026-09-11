@@ -11,13 +11,13 @@ from .models import Post
 #         {'id':5,  'title':'Post 5','content':'Content of Post 5'},
 #         {'id':6,  'title':'Post 6','content':'Content of Post 6'}
 #     ]
-posts = Post.objects.all()
 
 def login(request):
     return render(request,'blog/login.html')
 
 def index(request):
     blog_title="Latest Posts"
+    posts = Post.objects.all()
     return render(request,'blog/index.html',{'blog_title':blog_title,'posts':posts})
 
 def detail(request):
@@ -31,11 +31,12 @@ def detailWithId(request,slug):
     try:
         # post = Post.objects.get(pk=post_id)
         post = Post.objects.get(slug=slug)
+        related_posts = Post.objects.filter(category=post.category).exclude(pk=post.id)
     except Post.DoesNotExist:
         raise Http404("Post Does not Exist!")
     logger=logging.getLogger("Testing")
     logger.debug(f'post variable is {post}')
-    return render(request,'blog/detail.html',{'post': post})
+    return render(request,'blog/detail.html',{'post': post,'related_posts':related_posts})
 
 def old_url_redirect(request):
     return redirect('new_url_view')
