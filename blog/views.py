@@ -5,6 +5,9 @@ from .models import Post
 from django.core.paginator import Paginator
 from .forms  import ContactForm
 from django.contrib import messages
+from django.core.mail import send_mail
+from django.conf import settings
+
 # posts=[
 #         {'id':1, 'title':'Post 1','content':'Content of Post 1'},
 #         {'id':2,  'title':'Post 2','content':'Content of Post 2'},
@@ -55,7 +58,20 @@ def contact(request):
     if request.method == 'POST':
         form = ContactForm(request.POST)
         if form.is_valid():
-            logger.debug(f"post req is {form.cleaned_data['name']} {form.cleaned_data['email']}")
+            name = form.cleaned_data['name']
+            email = form.cleaned_data['email']
+            message = form.cleaned_data['message']
+
+            logger.debug(f"post req is {name} {email}")
+
+            send_mail(
+                subject=f"New contact form message from {name}",
+                message=f"From: {name} <{email}>\n\n{message}",
+                from_email=f"{email}",
+                recipient_list=['admin@example.com'],
+                fail_silently=False,
+            )
+
             messages.success(request, "Your message has been sent successfully!")
             return redirect('contact')
         else:

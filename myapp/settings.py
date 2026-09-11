@@ -126,12 +126,21 @@ STATICFILES_DIRS=[
 # Email
 # https://docs.djangoproject.com/en/6.1/topics/email/#topic-email-configuration
 
+
 MAILERS = {
-    'default': {
-        'BACKEND': 'django.core.mail.backends.console.EmailBackend',
+    "default": {
+        "BACKEND": "django.core.mail.backends.smtp.EmailBackend",
+        "OPTIONS": {
+            "host": "localhost",
+            "port": 1025,
+            "use_tls": False,
+            "username": "user",
+            "password": "password",
+        },
     },
 }
 
+DEFAULT_FROM_EMAIL = "noreply@yoursite.com"
 
 LOGGING = {
     "version": 1,
