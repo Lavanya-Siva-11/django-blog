@@ -6,6 +6,9 @@ class Command(BaseCommand):
     help="This command insert post data"
 
     def handle(self, *args: Any, **options: Any):
+        # delete the existing data
+        Post.objects.all().delete()
+
         title = [
         "10 Tips for Better Time Management",
         "A Beginner's Guide to Meal Prepping",
