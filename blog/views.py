@@ -11,7 +11,7 @@ from .models import Post
 #         {'id':5,  'title':'Post 5','content':'Content of Post 5'},
 #         {'id':6,  'title':'Post 6','content':'Content of Post 6'}
 #     ]
-posts = Post.objects.all().values("id", "title", "content", "img_url", "created_at")
+posts = Post.objects.all().values("id", "title", "content", "img_url","slug", "created_at")
 
 def login(request):
     return render(request,'blog/login.html')
@@ -26,10 +26,11 @@ def detail(request):
         "status":"success"
     })
 
-def detailWithId(request,post_id):
+def detailWithId(request,slug):
     # post=next((item for item in posts if item['id']==post_id),None)
     try:
-        post = Post.objects.get(pk=post_id)
+        # post = Post.objects.get(pk=post_id)
+        post = Post.objects.get(slug=slug)
     except Post.DoesNotExist:
         raise Http404("Post Does not Exist!")
     logger=logging.getLogger("Testing")
