@@ -11,7 +11,7 @@ from .models import Post
 #         {'id':5,  'title':'Post 5','content':'Content of Post 5'},
 #         {'id':6,  'title':'Post 6','content':'Content of Post 6'}
 #     ]
-posts = Post.objects.all().values("id", "title", "content", "img_url","slug", "created_at")
+posts = Post.objects.all()
 
 def login(request):
     return render(request,'blog/login.html')
