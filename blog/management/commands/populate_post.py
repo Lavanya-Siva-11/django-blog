@@ -1,7 +1,7 @@
-from blog.models import Post
+from blog.models import Post,Category
 from django.core.management.base import BaseCommand
 from typing import Any
-
+import random
 class Command(BaseCommand):
     help="This command insert post data"
 
@@ -56,7 +56,9 @@ class Command(BaseCommand):
         ]
 
         img_url = [f"https://picsum.photos/id/{i}/800/400" for i in range(1, 21)]
-
+        
+        categories = Category.objects.all()
         for t, c, img in zip(title, content, img_url):
-            Post.objects.create(title=t, content=c, img_url=img)
+            category =random.choice(categories)
+            Post.objects.create(title=t, content=c, img_url=img,category=category)
         self.stdout.write(self.style.SUCCESS("Completed inserting data!")) 
