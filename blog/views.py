@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponse, JsonResponse,Http404
 import logging
-from .models import Post
+from .models import Post, AboutUs
 from django.core.paginator import Paginator
 from .forms  import ContactForm
 from django.contrib import messages
@@ -80,3 +80,7 @@ def contact(request):
         form = ContactForm()
 
     return render(request, 'blog/contact.html', {'form': form})
+
+def about(request):
+    content=AboutUs.objects.last().content
+    return render(request,'blog/about.html',{'content':content})

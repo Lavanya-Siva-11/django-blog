@@ -13,6 +13,7 @@ urlpatterns=[
    path("old_url/",views.old_url_redirect,name="old_url"),
    path("new_url/",views.new_url_view,name="new_url_view"),
    path("contact/",views.contact,name="contact"),
+   path("about/",views.about,name="about"),
 
 
    path("<path:any_path>", redirect_to_index, name="catch_all"),

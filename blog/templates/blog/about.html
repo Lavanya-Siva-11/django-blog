@@ -1,0 +1,27 @@
+{% extends 'blog/base.html' %}
+{% load static %}
+
+{% block content %}
+  <div class="container-fluid px-0">
+
+    <div class="container py-5">
+      <div class="d-flex flex-column flex-wrap align-items-start gap-4">
+
+        <div style="flex: 0 0 320px;">
+          {% if about.image %}
+            <img src="{{ about.image.url }}" alt="{{ about.title|default:'About Us' }}" class="img-fluid rounded" style="width: 100%; max-width: 320px; height: 220px; object-fit: cover;">
+          {% else %}
+            <img src="https://picsum.photos/id/237/320/220" alt="About Us" class="img-fluid rounded" style="width: 100%; max-width: 320px; height: 220px; object-fit: cover;">
+          {% endif %}
+        </div>
+
+        <div class="flex-fill" style="min-width: 280px;">
+          <p class="text-secondary mb-0" style="line-height: 1.8;">
+            {{ content }}
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+{% endblock %}
